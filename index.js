@@ -20,7 +20,6 @@ function loadTasks() {
   return items;
 }
 
-// ---- создание элемента задачи ----
 function createItem(item) {
   const template = document.getElementById("to-do__item-template");
   const clone = template.content
@@ -39,15 +38,13 @@ function createItem(item) {
   );
 
   textElement.textContent = item;
-
-  // удалить задачу
+  
   deleteButton.addEventListener("click", () => {
     clone.remove();
     const items = getTasksFromDOM();
     saveTasks(items);
   });
 
-  // скопировать задачу
   duplicateButton.addEventListener("click", () => {
     const itemName = textElement.textContent;
     const newItem = createItem(itemName);
@@ -56,7 +53,6 @@ function createItem(item) {
     saveTasks(items);
   });
 
-  // редактировать задачу (доп. задание)
   editButton.addEventListener("click", () => {
     textElement.setAttribute("contenteditable", "true");
     textElement.focus();
@@ -71,7 +67,6 @@ function createItem(item) {
   return clone;
 }
 
-// ---- собрать задачи из DOM ----
 function getTasksFromDOM() {
   const itemsNamesElements = document.querySelectorAll(".to-do__item-text");
   const tasks = [];
@@ -81,19 +76,16 @@ function getTasksFromDOM() {
   return tasks;
 }
 
-// ---- сохранить задачи в localStorage ----
 function saveTasks(tasks) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// ---- начальная отрисовка ----
 items = loadTasks();
 items.forEach((item) => {
   const element = createItem(item);
   listElement.append(element);
 });
 
-// ---- обработчик формы ----
 formElement.addEventListener("submit", (evt) => {
   evt.preventDefault();
 
@@ -105,7 +97,6 @@ formElement.addEventListener("submit", (evt) => {
   const newItem = createItem(value);
   listElement.prepend(newItem);
 
-  // обновить список задач и сохранить
   items = getTasksFromDOM();
   saveTasks(items);
 
